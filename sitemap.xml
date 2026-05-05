@@ -1,0 +1,62 @@
+{\rtf1\ansi\ansicpg1254\cocoartf2869
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <?xml version="1.0" encoding="UTF-8"?>\
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\
+\
+  <!-- Home -->\
+  <url>\
+    <loc>https://sites.google.com/view/bdu-ro/</loc>\
+    <lastmod>2026-05-06</lastmod>\
+    <priority>1.0</priority>\
+  </url>\
+\
+  <!-- 2026 -->\
+  <url>\
+    <loc>https://sites.google.com/view/bdu-ro/2026</loc>\
+    <lastmod>2026-05-06</lastmod>\
+    <priority>0.9</priority>\
+  </url>\
+\
+  <url>\
+    <loc>https://sites.google.com/view/bdu-ro/2026/register</loc>\
+    <lastmod>2026-05-06</lastmod>\
+    <priority>0.8</priority>\
+  </url>\
+\
+  <url>\
+    <loc>https://sites.google.com/view/bdu-ro/2026/problems4</loc>\
+    <lastmod>2026-05-06</lastmod>\
+    <priority>0.8</priority>\
+  </url>\
+\
+  <url>\
+    <loc>https://sites.google.com/view/bdu-ro/2026/results4</loc>\
+    <lastmod>2026-05-06</lastmod>\
+    <priority>0.8</priority>\
+  </url>\
+\
+  <!-- 2025 -->\
+  <url>\
+    <loc>https://sites.google.com/view/bdu-ro/2025</loc>\
+    <lastmod>2025-12-31</lastmod>\
+    <priority>0.9</priority>\
+  </url>\
+\
+  <url>\
+    <loc>https://sites.google.com/view/bdu-ro/2025/problems</loc>\
+    <lastmod>2025-12-31</lastmod>\
+    <priority>0.8</priority>\
+  </url>\
+\
+  <url>\
+    <loc>https://sites.google.com/view/bdu-ro/2025/results</loc>\
+    <lastmod>2025-12-31</lastmod>\
+    <priority>0.8</priority>\
+  </url>\
+\
+</urlset>}
