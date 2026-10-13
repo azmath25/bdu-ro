@@ -1,0 +1,54 @@
+[
+  {
+    "id": "sinaq-numune-1",
+    "title": "Nümunə: Sınaq 1",
+    "date": "2026-10-04",
+    "duration": "3 saat",
+    "description": "Nümunə sınaqdır. Yükləmə səhifəsindən silə bilərsiniz.",
+    "results": {
+      "rows": [
+        {
+          "name": "Nümunə İştirakçı 1",
+          "score": 36
+        },
+        {
+          "name": "Nümunə İştirakçı 2",
+          "score": 31
+        },
+        {
+          "name": "Nümunə İştirakçı 3",
+          "score": 31
+        },
+        {
+          "name": "Nümunə İştirakçı 4",
+          "score": 27
+        },
+        {
+          "name": "Nümunə İştirakçı 5",
+          "score": 24
+        },
+        {
+          "name": "Nümunə İştirakçı 6",
+          "score": 19
+        },
+        {
+          "name": "Nümunə İştirakçı 7",
+          "score": 12
+        },
+        {
+          "name": "Nümunə İştirakçı 8",
+          "score": 7
+        }
+      ]
+    }
+  },
+  {
+    "id": "sinaq-numune-2",
+    "title": "Nümunə: Sınaq 2",
+    "date": "2026-10-25",
+    "duration": "3 saat",
+    "description": "Gələcək sınağın necə görünəcəyini göstərən nümunə.",
+    "link": "https://forms.gle/Re5FgP3xWLFvzctm8",
+    "linkLabel": "Qeydiyyat"
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "id": "numune-yazi",
+    "type": "post",
+    "title": "Nümunə: AM–GM bərabərsizliyi",
+    "topic": "Qeyri-bərabərliklər",
+    "date": "2026-10-10",
+    "description": "Bu, nümunə yazıdır. Yükləmə səhifəsindən silə bilərsiniz.",
+    "body": "## Giriş\n\nİki müsbət ədəd üçün hesabi orta həndəsi ortadan kiçik deyil:\n\n$$\\frac{a+b}{2} \\ge \\sqrt{ab}$$\n\nBərabərlik yalnız $a=b$ olduqda mümkündür.\n\n## İsbat\n\n$(\\sqrt a-\\sqrt b)^2\\ge 0$ bərabərsizliyini açsaq, $a+b\\ge 2\\sqrt{ab}$ alırıq.\n\n## Məsələlər\n\n- $a,b,c>0$ üçün $a^2+b^2+c^2\\ge ab+bc+ca$ isbat edin.\n- $x>0$ üçün $x+\\frac1x\\ge 2$ olduğunu göstərin."
+  }
+]
