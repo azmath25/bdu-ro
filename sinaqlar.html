@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#205981">
+  <meta name="description" content="Riyaziyyat Olimpiada Dərsləri: sınaqlar və nəticələr.">
+  <title>Sınaqlar · Riyaziyyat Olimpiada Dərsləri</title>
+  <link rel="icon" href="logo-256.png">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap bar">
+      <a class="brand" href="index.html">
+        <img src="logo-256.png" alt="" width="56" height="56">
+        <span>BAKI DÖVLƏT<br>UNİVERSİTETİ</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menu">Menyu</button>
+      <nav class="nav" id="menu" aria-label="Əsas menyu">
+        <a href="index.html">Ana səhifə</a>
+        <a href="dersler.html">Dərslər</a>
+        <a href="sinaqlar.html" aria-current="page">Sınaqlar</a>
+        <a class="cta" href="https://forms.gle/Re5FgP3xWLFvzctm8" target="_blank" rel="noopener noreferrer">Qeydiyyat</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <div class="page-head">
+        <h1>Sınaqlar</h1>
+        <div class="short-rule" aria-hidden="true"></div>
+        <p>Sınaqların vaxtı, tapşırıqları və nəticələri.</p>
+      </div>
+
+      <div class="toolbar">
+        <div class="tabs" role="tablist" aria-label="Bölmə">
+          <button class="tab" type="button" role="tab" id="tab-exams" aria-controls="panel-exams" aria-selected="true">Sınaqlar</button>
+          <button class="tab" type="button" role="tab" id="tab-results" aria-controls="panel-results" aria-selected="false">Nəticələr</button>
+        </div>
+      </div>
+
+      <section id="panel-exams" role="tabpanel" aria-labelledby="tab-exams"></section>
+      <section id="panel-results" role="tabpanel" aria-labelledby="tab-results" hidden></section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-row"><span>RİYAZİYYAT OLİMPİADA DƏRSLƏRİ</span><span class="footer-line" aria-hidden="true"></span><span>2026–2027</span></div>
+      <p class="footer-note"><a href="afisa.html">Afişa (A4, çap üçün)</a></p>
+    </div>
+  </footer>
+
+  <script src="site.js"></script>
+  <script>
+    (async () => {
+      const { esc, fmtDate, dateParts, href, status } = BDU;
+      const $ = id => document.getElementById(id);
+      let exams = [];
+
+      /* ---- tabs ---- */
+      function showTab(name) {
+        const isRes = name === 'results';
+        $('tab-exams').setAttribute('aria-selected', String(!isRes));
+        $('tab-results').setAttribute('aria-selected', String(isRes));
+        $('panel-exams').hidden = isRes;
+        $('panel-results').hidden = !isRes;
+        history.replaceState(null, '', isRes ? '#neticeler' : location.pathname + location.search);
+      }
+      $('tab-exams').addEventListener('click', () => showTab('exams'));
+      $('tab-results').addEventListener('click', () => showTab('results'));
+      window.addEventListener('hashchange', () => showTab(location.hash === '#neticeler' ? 'results' : 'exams'));
+
+      /* ---- sınaqlar ---- */
+      const hasResults = e => e.results && ((e.results.rows && e.results.rows.length) || e.results.file);
+
+      function examCard(e) {
+        const st = status(e.date);
+        const badge = st === 'upcoming' ? '<span class="badge">Gələcək</span>' : st === 'today' ? '<span class="badge">Bu gün</span>' : '<span class="badge badge-past">Bitib</span>';
+        const p = dateParts(e.date);
+        const actions = [];
+        if (e.problems) actions.push(`<a class="btn" href="${href(e.problems)}" target="_blank" rel="noopener">Tapşırıqlar</a>`);
+        if (e.solutions) actions.push(`<a class="btn btn-ghost" href="${href(e.solutions)}" target="_blank" rel="noopener">Həllər</a>`);
+        if (e.link) actions.push(`<a class="btn ${st === 'past' ? 'btn-ghost' : 'btn-gold'}" href="${href(e.link)}" target="_blank" rel="noopener noreferrer">${esc(e.linkLabel || 'Keçid')}</a>`);
+        if (hasResults(e)) actions.push(`<button class="btn btn-ghost" type="button" data-goto="${esc(e.id)}">Nəticələrə bax</button>`);
+        return `<article class="exam">
+          <div class="exam-date"><b>${p.day}</b><span>${p.month}</span><i>${p.year}</i></div>
+          <div class="exam-body">
+            <div class="exam-top"><h3>${esc(e.title)}</h3>${badge}</div>
+            ${e.duration ? `<p class="meta">Müddət: ${esc(e.duration)}</p>` : ''}
+            ${e.description ? `<p class="desc">${esc(e.description)}</p>` : ''}
+            ${actions.length ? `<div class="actions">${actions.join('')}</div>` : ''}
+          </div></article>`;
+      }
+
+      function renderExams() {
+        const upcoming = exams.filter(e => status(e.date) !== 'past').sort((a, b) => a.date.localeCompare(b.date));
+        const past = exams.filter(e => status(e.date) === 'past').sort((a, b) => b.date.localeCompare(a.date));
+        const all = [...upcoming, ...past];
+        $('panel-exams').innerHTML = all.length
+          ? all.map(examCard).join('')
+          : '<div class="panel state"><h2>Hələ sınaq yoxdur</h2><p>Sınaq elan olunanda burada görünəcək.</p></div>';
+      }
+
+      /* ---- nəticələr ---- */
+      function rankRows(rows) {
+        const num = v => { const n = parseFloat(String(v).replace(',', '.')); return Number.isNaN(n) ? null : n; };
+        const sorted = rows.map(r => ({ ...r, n: num(r.score) })).sort((a, b) => (b.n ?? -Infinity) - (a.n ?? -Infinity));
+        let rank = 0, prev;
+        return sorted.map((r, i) => {
+          if (r.n === null || r.n !== prev) rank = i + 1;
+          prev = r.n;
+          return { ...r, rank };
+        });
+      }
+
+      function resultCard(e) {
+        const r = e.results;
+        const rows = r.rows && r.rows.length ? rankRows(r.rows) : [];
+        const table = rows.length ? `<div class="table-wrap"><table>
+            <thead><tr><th>Yer</th><th>İştirakçı</th><th class="num">Bal</th></tr></thead>
+            <tbody>${rows.map(x => `<tr><td class="rank">${x.rank}</td><td>${esc(x.name)}</td><td class="num">${esc(x.score)}</td></tr>`).join('')}</tbody>
+          </table></div>` : '';
+        const pdf = r.file ? `<a class="btn" href="${href(r.file)}" target="_blank" rel="noopener">Nəticələr (PDF)</a>` : '';
+        return `<article class="panel result" id="res-${esc(e.id)}">
+          <div class="result-head">
+            <div><h3>${esc(e.title)}</h3><p class="meta">${esc(fmtDate(e.date))}${rows.length ? `, ${rows.length} iştirakçı` : ''}</p></div>
+            ${pdf ? `<div class="actions">${pdf}</div>` : ''}
+          </div>${table}</article>`;
+      }
+
+      function renderResults() {
+        const list = exams.filter(hasResults).sort((a, b) => b.date.localeCompare(a.date));
+        $('panel-results').innerHTML = list.length
+          ? list.map(resultCard).join('')
+          : '<div class="panel state"><h2>Hələ nəticə yoxdur</h2><p>Sınaq yoxlanılandan sonra nəticələr burada yerləşdiriləcək.</p></div>';
+      }
+
+      $('panel-exams').addEventListener('click', ev => {
+        const btn = ev.target.closest('[data-goto]');
+        if (!btn) return;
+        showTab('results');
+        const el = document.getElementById('res-' + btn.dataset.goto);
+        if (el) el.scrollIntoView({ block: 'start' });
+      });
+
+      try {
+        exams = await BDU.load('sinaqlar');
+        renderExams();
+        renderResults();
+        if (location.hash === '#neticeler') showTab('results');
+      } catch {
+        const msg = '<div class="panel state"><h2>Məlumat yüklənmədi</h2><p>Səhifəni faylı birbaşa açmaqla yox, saytın öz ünvanından açın və yenidən cəhd edin.</p></div>';
+        $('panel-exams').innerHTML = msg;
+      }
+    })();
+  </script>
+</body>
+</html>

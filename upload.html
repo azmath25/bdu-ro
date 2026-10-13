@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#205981">
+  <title>Yükləmə · Riyaziyyat Olimpiada Dərsləri</title>
+  <link rel="icon" href="logo-256.png">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap bar">
+      <a class="brand" href="index.html">
+        <img src="logo-256.png" alt="" width="56" height="56">
+        <span>BAKI DÖVLƏT<br>UNİVERSİTETİ</span>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap stack-gap">
+      <div class="page-head" style="margin-bottom:0">
+        <h1>Yükləmə</h1>
+        <div class="short-rule" aria-hidden="true"></div>
+        <p>Dərs, sınaq və nəticələri buradan əlavə edin. Fayllar birbaşa GitHub repozitoriyasına yazılır.</p>
+      </div>
+
+      <!-- Qoşulma -->
+      <section class="panel" aria-labelledby="h-conn">
+        <h2 id="h-conn">Qoşulma</h2>
+        <div class="form-stack">
+          <div class="field">
+            <label for="token">GitHub token</label>
+            <input id="token" type="password" autocomplete="off" placeholder="github_pat_…">
+          </div>
+          <div class="row">
+            <div class="field"><label for="repo">Repozitoriya</label><input id="repo" type="text" value="azmath25/bdu-ro" autocomplete="off"></div>
+            <div class="field"><label for="branch">Branch</label><input id="branch" type="text" value="main" autocomplete="off"></div>
+          </div>
+          <label class="check"><input id="remember" type="checkbox"> Bu cihazda yadda saxla</label>
+          <div class="actions"><button class="btn" id="check" type="button">Bağlantını yoxla</button></div>
+        </div>
+        <details class="help">
+          <summary>Token necə alınır?</summary>
+          <ol>
+            <li>GitHub: Settings, Developer settings, Personal access tokens, Fine-grained tokens, Generate new token.</li>
+            <li>Repository access: yalnız <b>azmath25/bdu-ro</b> seçin.</li>
+            <li>Permissions, Repository permissions: <b>Contents</b> sahəsini <b>Read and write</b> edin.</li>
+            <li>Tokeni kopyalayıb yuxarıya yapışdırın. Token olmadan heç nə dəyişmir.</li>
+          </ol>
+        </details>
+      </section>
+
+      <!-- Bölmələr -->
+      <div class="tabs" role="tablist" aria-label="Nə əlavə etmək istəyirsiniz?">
+        <button class="tab" type="button" role="tab" data-tab="pdf" aria-selected="true">Dərs (PDF)</button>
+        <button class="tab" type="button" role="tab" data-tab="post" aria-selected="false">Dərs (yazı)</button>
+        <button class="tab" type="button" role="tab" data-tab="exam" aria-selected="false">Sınaq</button>
+        <button class="tab" type="button" role="tab" data-tab="result" aria-selected="false">Nəticə</button>
+        <button class="tab" type="button" role="tab" data-tab="list" aria-selected="false">Mövcud olanlar</button>
+      </div>
+
+      <section class="panel" id="tab-pdf" role="tabpanel">
+        <h2>Dərs PDF-i</h2>
+        <form class="form-stack" id="f-pdf">
+          <div class="field"><label for="pdf-title">Başlıq</label><input id="pdf-title" name="title" required></div>
+          <div class="row">
+            <div class="field"><label for="pdf-topic">Mövzu</label><input id="pdf-topic" name="topic" list="topics" placeholder="məs. Kombinatorika"></div>
+            <div class="field"><label for="pdf-date">Tarix</label><input id="pdf-date" name="date" type="date" required></div>
+          </div>
+          <div class="field"><label for="pdf-desc">Qısa təsvir</label><textarea id="pdf-desc" name="description" rows="3"></textarea></div>
+          <div class="field"><label for="pdf-file">PDF fayl</label><input id="pdf-file" name="file" type="file" accept="application/pdf,.pdf" required><p class="hint">Maksimum 25 MB.</p></div>
+          <div class="actions"><button class="btn" type="submit">Əlavə et</button></div>
+        </form>
+      </section>
+
+      <section class="panel" id="tab-post" role="tabpanel" hidden>
+        <h2>Dərs yazısı</h2>
+        <form class="form-stack" id="f-post">
+          <div class="field"><label for="post-title">Başlıq</label><input id="post-title" name="title" required></div>
+          <div class="row">
+            <div class="field"><label for="post-topic">Mövzu</label><input id="post-topic" name="topic" list="topics"></div>
+            <div class="field"><label for="post-date">Tarix</label><input id="post-date" name="date" type="date" required></div>
+          </div>
+          <div class="field"><label for="post-desc">Qısa təsvir</label><textarea id="post-desc" name="description" rows="2"></textarea></div>
+          <div class="field">
+            <label for="post-body">Mətn</label>
+            <textarea id="post-body" name="body" rows="14" required></textarea>
+            <p class="hint">Abzaslar boş sətirlə ayrılır. <b>## Başlıq</b> alt başlıq, <b>- </b> siyahı, <b>**qalın**</b> mətn yaradır. Düsturlar üçün <b>$x^2+1$</b> və ayrıca sətirdə <b>$$\frac{a}{b}$$</b> yazın.</p>
+          </div>
+          <div class="actions"><button class="btn" type="submit">Əlavə et</button></div>
+        </form>
+      </section>
+
+      <section class="panel" id="tab-exam" role="tabpanel" hidden>
+        <h2>Sınaq</h2>
+        <form class="form-stack" id="f-exam">
+          <div class="field"><label for="ex-title">Başlıq</label><input id="ex-title" name="title" required placeholder="məs. Sınaq 3"></div>
+          <div class="row">
+            <div class="field"><label for="ex-date">Tarix</label><input id="ex-date" name="date" type="date" required></div>
+            <div class="field"><label for="ex-duration">Müddət</label><input id="ex-duration" name="duration" placeholder="məs. 3 saat"></div>
+          </div>
+          <div class="field"><label for="ex-desc">Təsvir</label><textarea id="ex-desc" name="description" rows="3"></textarea></div>
+          <div class="row">
+            <div class="field"><label for="ex-problems">Tapşırıqlar (PDF)</label><input id="ex-problems" name="problems" type="file" accept="application/pdf,.pdf"></div>
+            <div class="field"><label for="ex-solutions">Həllər (PDF)</label><input id="ex-solutions" name="solutions" type="file" accept="application/pdf,.pdf"></div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="ex-link">Keçid (qeydiyyat, onlayn sınaq və s.)</label><input id="ex-link" name="link" type="url" placeholder="https://"></div>
+            <div class="field"><label for="ex-linklabel">Keçid düyməsinin adı</label><input id="ex-linklabel" name="linkLabel" value="Qeydiyyat"></div>
+          </div>
+          <div class="actions"><button class="btn" type="submit">Əlavə et</button></div>
+        </form>
+      </section>
+
+      <section class="panel" id="tab-result" role="tabpanel" hidden>
+        <h2>Nəticə</h2>
+        <form class="form-stack" id="f-result">
+          <div class="field"><label for="res-exam">Hansı sınaq?</label><select id="res-exam" name="exam" required><option value="">Sınaq seçin</option></select></div>
+          <div class="field"><label for="res-file">Nəticə PDF-i</label><input id="res-file" name="file" type="file" accept="application/pdf,.pdf"></div>
+          <div class="field">
+            <label for="res-rows">Nəticə cədvəli</label>
+            <textarea id="res-rows" name="rows" rows="10" placeholder="Ad Soyad, 36&#10;Ad Soyad, 31"></textarea>
+            <p class="hint">Hər sətirdə bir iştirakçı: ad, vergül, bal. Yerlər baldan avtomatik hesablanır. PDF, cədvəl və ya hər ikisini əlavə edə bilərsiniz. Yenisini göndərmək əvvəlkini əvəz edir.</p>
+          </div>
+          <div class="actions"><button class="btn" type="submit">Nəticəni əlavə et</button></div>
+        </form>
+      </section>
+
+      <section class="panel" id="tab-list" role="tabpanel" hidden>
+        <h2>Dərslər</h2>
+        <ul class="existing" id="ex-lessons"></ul>
+        <h2>Sınaqlar</h2>
+        <ul class="existing" id="ex-exams"></ul>
+        <p class="hint">Silinəndə qeyd və ona bağlı fayllar repozitoriyadan çıxarılır.</p>
+      </section>
+
+      <section class="panel" id="log-panel" aria-labelledby="h-log" hidden>
+        <h2 id="h-log">Gedişat</h2>
+        <ul class="log" id="log" aria-live="polite"></ul>
+      </section>
+
+      <datalist id="topics">
+        <option value="Cəbr"><option value="Kombinatorika"><option value="Həndəsə"><option value="Ədədlər nəzəriyyəsi"><option value="Qeyri-bərabərliklər"><option value="Funksional tənliklər"><option value="Digər">
+      </datalist>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-row"><span>RİYAZİYYAT OLİMPİADA DƏRSLƏRİ</span><span class="footer-line" aria-hidden="true"></span><span>2026–2027</span></div>
+    </div>
+  </footer>
+
+  <script src="site.js"></script>
+  <script>
+    (() => {
+      const { esc, fmtDate, todayISO } = BDU;
+      const $ = s => document.querySelector(s);
+      const state = { lessons: [], exams: [] };
+      const STORE = 'bdu-upload-settings';
+
+      /* ---------- settings ---------- */
+      const readStore = () => { try { return JSON.parse(localStorage.getItem(STORE) || '{}'); } catch { return {}; } };
+      const writeStore = v => { try { localStorage.setItem(STORE, JSON.stringify(v)); } catch { /* storage unavailable */ } };
+      (() => {
+        const s = readStore();
+        if (s.token) $('#token').value = s.token;
+        if (s.repo) $('#repo').value = s.repo;
+        if (s.branch) $('#branch').value = s.branch;
+        $('#remember').checked = !!s.token;
+      })();
+      const cfg = () => ({ token: $('#token').value.trim(), repo: $('#repo').value.trim(), branch: $('#branch').value.trim() || 'main' });
+      const saveCfg = () => {
+        const c = cfg();
+        writeStore({ repo: c.repo, branch: c.branch, ...($('#remember').checked ? { token: c.token } : {}) });
+      };
+      ['#token', '#repo', '#branch', '#remember'].forEach(s => $(s).addEventListener('change', () => { saveCfg(); refresh(); }));
+
+      /* ---------- log ---------- */
+      function log(msg, kind = '') {
+        $('#log-panel').hidden = false;
+        const li = document.createElement('li');
+        if (kind) li.className = kind;
+        li.textContent = msg;
+        $('#log').prepend(li);
+        return li;
+      }
+      function explain(e) {
+        if (e.status === 401) return 'Token yanlışdır və ya müddəti bitib.';
+        if (e.status === 403) return 'Bu tokenin yazma icazəsi yoxdur (Contents: Read and write lazımdır).';
+        if (e.status === 404) return 'Repozitoriya və ya fayl tapılmadı. Repozitoriya adını və tokenin həmin repoya çıxışını yoxlayın.';
+        return e.message || 'Naməlum xəta.';
+      }
+      const SUCCESS_NOTE = 'Saytda görünməsi təxminən 1 dəqiqə çəkə bilər.';
+
+      /* ---------- encoding helpers ---------- */
+      const textToB64 = t => {
+        const bytes = new TextEncoder().encode(t);
+        let s = '';
+        for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+        return btoa(s);
+      };
+      const b64ToText = b => new TextDecoder().decode(Uint8Array.from(atob(b.replace(/\s/g, '')), c => c.charCodeAt(0)));
+      const fileToB64 = f => new Promise((ok, fail) => {
+        const r = new FileReader();
+        r.onload = () => ok(String(r.result).split(',')[1]);
+        r.onerror = () => fail(r.error);
+        r.readAsDataURL(f);
+      });
+      const slug = s => String(s).replace(/[əƏ]/g, 'e').replace(/[ıİ]/g, 'i').normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40) || 'fayl';
+      const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+      const encPath = p => p.split('/').map(encodeURIComponent).join('/');
+
+      /* ---------- GitHub API ---------- */
+      async function gh(path, { method = 'GET', body } = {}) {
+        const { token, repo } = cfg();
+        if (!token) throw Object.assign(new Error('Əvvəlcə GitHub token daxil edin.'), { status: 0 });
+        if (!/^[\w.-]+\/[\w.-]+$/.test(repo)) throw Object.assign(new Error('Repozitoriya adı "istifadəçi/repo" formatında olmalıdır.'), { status: 0 });
+        const res = await fetch(`https://api.github.com/repos/${repo}/${path}`, {
+          method,
+          headers: {
+            Accept: 'application/vnd.github+json',
+            Authorization: 'Bearer ' + token,
+            'X-GitHub-Api-Version': '2022-11-28',
+            ...(body ? { 'Content-Type': 'application/json' } : {})
+          },
+          body: body ? JSON.stringify(body) : undefined
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw Object.assign(new Error(data.message || 'HTTP ' + res.status), { status: res.status });
+        return data;
+      }
+      async function getFile(path) {
+        try { return await gh(`contents/${encPath(path)}?ref=${encodeURIComponent(cfg().branch)}`); }
+        catch (e) { if (e.status === 404) return null; throw e; }
+      }
+      const putFile = (path, b64, message, sha) =>
+        gh(`contents/${encPath(path)}`, { method: 'PUT', body: { message, content: b64, branch: cfg().branch, ...(sha ? { sha } : {}) } });
+      async function deleteFile(path) {
+        const f = await getFile(path);
+        if (f) await gh(`contents/${encPath(path)}`, { method: 'DELETE', body: { message: 'Fayl silindi: ' + path, sha: f.sha, branch: cfg().branch } });
+      }
+      async function readJSON(name) {
+        const f = await getFile(`data/${name}.json`);
+        return f ? JSON.parse(b64ToText(f.content)) : [];
+      }
+      /* Read-modify-write with a retry in case the file changed in between. */
+      async function updateJSON(name, mutate, message) {
+        const path = `data/${name}.json`;
+        for (let attempt = 0; attempt < 3; attempt++) {
+          const f = await getFile(path);
+          const arr = f ? JSON.parse(b64ToText(f.content)) : [];
+          const next = mutate(arr) || arr;
+          try {
+            await putFile(path, textToB64(JSON.stringify(next, null, 2) + '\n'), message, f && f.sha);
+            return next;
+          } catch (e) {
+            if (attempt < 2 && (e.status === 409 || e.status === 422)) continue;
+            throw e;
+          }
+        }
+      }
+      async function uploadFile(file, folder, name) {
+        if (!file || !file.size) return '';
+        if (!/\.pdf$/i.test(file.name)) throw new Error('Yalnız PDF fayl yükləmək olar: ' + file.name);
+        if (file.size > 25 * 1024 * 1024) throw new Error('Fayl 25 MB-dan böyükdür: ' + file.name);
+        const path = `files/${folder}/${slug(name)}-${uid()}.pdf`;
+        log(`Fayl yüklənir: ${file.name}`);
+        await putFile(path, await fileToB64(file), 'Fayl əlavə olundu: ' + file.name);
+        return path;
+      }
+
+      /* ---------- shared UI ---------- */
+      async function run(form, fn) {
+        const btn = form.querySelector('[type=submit]');
+        btn.disabled = true;
+        try { await fn(); } catch (e) { log(explain(e), 'err'); } finally { btn.disabled = false; }
+      }
+      const val = (form, n) => (form.elements[n].value || '').trim();
+      function resetForm(form) {
+        form.reset();
+        form.querySelectorAll('input[type=date]').forEach(i => { i.value = todayISO(); });
+      }
+
+      function renderExisting() {
+        const row = (title, date, kind, id) =>
+          `<li><div><b>${esc(title)}</b><small>${esc(kind)}${date ? ', ' + esc(fmtDate(date)) : ''}</small></div><button class="btn btn-danger" type="button" data-del="${esc(id)}" data-kind="${esc(kind)}">Sil</button></li>`;
+        const L = state.lessons.slice().sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+        const E = state.exams.slice().sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+        $('#ex-lessons').innerHTML = L.length ? L.map(l => row(l.title, l.date, l.type === 'post' ? 'yazı' : 'PDF', l.id)).join('') : '<li class="muted">Heç nə yoxdur.</li>';
+        $('#ex-exams').innerHTML = E.length ? E.map(e => row(e.title, e.date, 'sınaq', e.id)).join('') : '<li class="muted">Heç nə yoxdur.</li>';
+        const sel = $('#res-exam'), keep = sel.value;
+        sel.innerHTML = '<option value="">Sınaq seçin</option>' + E.map(e => `<option value="${esc(e.id)}">${esc(e.title)} (${esc(fmtDate(e.date))})</option>`).join('');
+        sel.value = keep;
+      }
+
+      async function refresh() {
+        try {
+          if (cfg().token) {
+            [state.lessons, state.exams] = await Promise.all([readJSON('lessons'), readJSON('sinaqlar')]);
+          } else {
+            [state.lessons, state.exams] = await Promise.all([BDU.load('lessons'), BDU.load('sinaqlar')]);
+          }
+        } catch (e) {
+          if (cfg().token) log('Siyahı yüklənmədi: ' + explain(e), 'err');
+        }
+        renderExisting();
+      }
+
+      /* ---------- tabs ---------- */
+      document.querySelectorAll('[data-tab]').forEach(btn => btn.addEventListener('click', () => {
+        document.querySelectorAll('[data-tab]').forEach(b => {
+          const on = b === btn;
+          b.setAttribute('aria-selected', String(on));
+          $('#tab-' + b.dataset.tab).hidden = !on;
+        });
+      }));
+
+      /* ---------- connection check ---------- */
+      $('#check').addEventListener('click', async () => {
+        saveCfg();
+        try {
+          const r = await gh('');
+          log(r.permissions && r.permissions.push
+            ? `Qoşuldu: ${r.full_name}. Yazma icazəsi var.`
+            : `Qoşuldu: ${r.full_name}, amma yazma icazəsi yoxdur.`, r.permissions && r.permissions.push ? 'ok' : 'err');
+          refresh();
+        } catch (e) { log(explain(e), 'err'); }
+      });
+
+      /* ---------- forms ---------- */
+      $('#f-pdf').addEventListener('submit', e => { e.preventDefault(); const f = e.target; run(f, async () => {
+        const title = val(f, 'title');
+        const file = await uploadFile(f.elements.file.files[0], 'lessons', title);
+        log('Siyahı yenilənir…');
+        await updateJSON('lessons', arr => { arr.push({ id: uid(), type: 'pdf', title, topic: val(f, 'topic'), date: val(f, 'date'), description: val(f, 'description'), file }); }, 'Dərs əlavə olundu: ' + title);
+        log(`Əlavə olundu: «${title}». ${SUCCESS_NOTE}`, 'ok');
+        resetForm(f); refresh();
+      }); });
+
+      $('#f-post').addEventListener('submit', e => { e.preventDefault(); const f = e.target; run(f, async () => {
+        const title = val(f, 'title');
+        log('Yazı göndərilir…');
+        await updateJSON('lessons', arr => { arr.push({ id: uid(), type: 'post', title, topic: val(f, 'topic'), date: val(f, 'date'), description: val(f, 'description'), body: f.elements.body.value.replace(/\r/g, '').trim() }); }, 'Yazı əlavə olundu: ' + title);
+        log(`Əlavə olundu: «${title}». ${SUCCESS_NOTE}`, 'ok');
+        resetForm(f); refresh();
+      }); });
+
+      $('#f-exam').addEventListener('submit', e => { e.preventDefault(); const f = e.target; run(f, async () => {
+        const title = val(f, 'title');
+        const problems = await uploadFile(f.elements.problems.files[0], 'exams', title + '-tapshiriqlar');
+        const solutions = await uploadFile(f.elements.solutions.files[0], 'exams', title + '-heller');
+        log('Siyahı yenilənir…');
+        const entry = { id: uid(), title, date: val(f, 'date'), duration: val(f, 'duration'), description: val(f, 'description') };
+        if (problems) entry.problems = problems;
+        if (solutions) entry.solutions = solutions;
+        if (val(f, 'link')) { entry.link = val(f, 'link'); entry.linkLabel = val(f, 'linkLabel') || 'Keçid'; }
+        await updateJSON('sinaqlar', arr => { arr.push(entry); }, 'Sınaq əlavə olundu: ' + title);
+        log(`Əlavə olundu: «${title}». ${SUCCESS_NOTE}`, 'ok');
+        resetForm(f); refresh();
+      }); });
+
+      function parseRows(text) {
+        return text.split(/\r?\n/).map(l => l.trim()).filter(Boolean).map(line => {
+          /* numeric score first (so "Ad, 25,5" keeps 25,5), then any trailing text such as "—" */
+          const m = /^(.*?)[,;\t]\s*(\d+(?:[.,]\d+)?)\s*$/.exec(line) || /^(.*)[,;\t]\s*([^,;\t]+)$/.exec(line);
+          if (!m || !m[1].trim()) throw new Error('Sətir oxunmadı (format: Ad, Bal): ' + line);
+          const raw = m[2].trim(), n = parseFloat(raw.replace(',', '.'));
+          return { name: m[1].trim(), score: Number.isNaN(n) ? raw : n };
+        });
+      }
+      $('#f-result').addEventListener('submit', e => { e.preventDefault(); const f = e.target; run(f, async () => {
+        const id = val(f, 'exam');
+        const exam = state.exams.find(x => x.id === id);
+        if (!exam) throw new Error('Sınaq seçin.');
+        const rows = parseRows(f.elements.rows.value);
+        const pdf = f.elements.file.files[0];
+        if (!rows.length && !(pdf && pdf.size)) throw new Error('Nəticə PDF-i və ya cədvəl daxil edin.');
+        const file = await uploadFile(pdf, 'results', exam.title + '-neticeler');
+        log('Siyahı yenilənir…');
+        await updateJSON('sinaqlar', arr => {
+          const t = arr.find(x => x.id === id);
+          if (!t) throw new Error('Sınaq artıq mövcud deyil.');
+          t.results = { ...(t.results || {}), ...(rows.length ? { rows } : {}), ...(file ? { file } : {}) };
+        }, 'Nəticələr əlavə olundu: ' + exam.title);
+        log(`Nəticələr əlavə olundu: «${exam.title}». ${SUCCESS_NOTE}`, 'ok');
+        resetForm(f); refresh();
+      }); });
+
+      /* ---------- delete ---------- */
+      $('#tab-list').addEventListener('click', async ev => {
+        const btn = ev.target.closest('[data-del]');
+        if (!btn) return;
+        const id = btn.dataset.del, isExam = btn.dataset.kind === 'sınaq';
+        const item = (isExam ? state.exams : state.lessons).find(x => x.id === id);
+        if (!item || !confirm(`«${item.title}» silinsin?`)) return;
+        btn.disabled = true;
+        try {
+          const files = [item.file, item.problems, item.solutions, item.results && item.results.file].filter(Boolean);
+          await updateJSON(isExam ? 'sinaqlar' : 'lessons', arr => arr.filter(x => x.id !== id), 'Silindi: ' + item.title);
+          for (const p of files) { try { await deleteFile(p); } catch { /* file may already be gone */ } }
+          log(`Silindi: «${item.title}». ${SUCCESS_NOTE}`, 'ok');
+          refresh();
+        } catch (e) { log(explain(e), 'err'); btn.disabled = false; }
+      });
+
+      /* ---------- init ---------- */
+      document.querySelectorAll('input[type=date]').forEach(i => { i.value = todayISO(); });
+      refresh();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#205981">
+  <meta name="description" content="Riyaziyyat Olimpiada Dərsləri: dərs PDF-ləri və yazılar.">
+  <title>Dərslər · Riyaziyyat Olimpiada Dərsləri</title>
+  <link rel="icon" href="logo-256.png">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap bar">
+      <a class="brand" href="index.html">
+        <img src="logo-256.png" alt="" width="56" height="56">
+        <span>BAKI DÖVLƏT<br>UNİVERSİTETİ</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menu">Menyu</button>
+      <nav class="nav" id="menu" aria-label="Əsas menyu">
+        <a href="index.html">Ana səhifə</a>
+        <a href="dersler.html" aria-current="page">Dərslər</a>
+        <a href="sinaqlar.html">Sınaqlar</a>
+        <a class="cta" href="https://forms.gle/Re5FgP3xWLFvzctm8" target="_blank" rel="noopener noreferrer">Qeydiyyat</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+
+      <!-- Siyahı -->
+      <div id="list-view">
+        <div class="page-head">
+          <h1>Dərslər</h1>
+          <div class="short-rule" aria-hidden="true"></div>
+          <p>Dərs konspektləri PDF formatında və mövzu yazıları.</p>
+        </div>
+
+        <div class="toolbar">
+          <div class="tabs" role="group" aria-label="Növ">
+            <button class="tab" type="button" data-type="all" aria-pressed="true">Hamısı</button>
+            <button class="tab" type="button" data-type="pdf" aria-pressed="false">PDF</button>
+            <button class="tab" type="button" data-type="post" aria-pressed="false">Yazılar</button>
+          </div>
+          <select id="topic" aria-label="Mövzu"><option value="">Bütün mövzular</option></select>
+          <input class="search" id="q" type="search" placeholder="Axtar" aria-label="Axtar">
+        </div>
+        <p class="count" id="count" aria-live="polite"></p>
+        <div class="cards" id="cards"></div>
+      </div>
+
+      <!-- Yazı oxuyucusu -->
+      <div id="reader-view" hidden>
+        <a class="back" href="dersler.html">Bütün dərslərə qayıt</a>
+        <article class="panel reader" id="reader"></article>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-row"><span>RİYAZİYYAT OLİMPİADA DƏRSLƏRİ</span><span class="footer-line" aria-hidden="true"></span><span>2026–2027</span></div>
+      <p class="footer-note"><a href="afisa.html">Afişa (A4, çap üçün)</a></p>
+    </div>
+  </footer>
+
+  <script src="site.js"></script>
+  <script>
+    (async () => {
+      const { esc, fmtDate, href } = BDU;
+      const $ = id => document.getElementById(id);
+      const listView = $('list-view'), readerView = $('reader-view');
+      const state = { type: 'all', topic: '', q: '' };
+      let lessons = [];
+      let loaded = false;
+      const baseTitle = document.title;
+
+      const norm = s => String(s || '').toLocaleLowerCase('az');
+
+      function card(l) {
+        const tags = `<div class="tags"><span class="tag tag-type">${l.type === 'post' ? 'Yazı' : 'PDF'}</span>${l.topic ? `<span class="tag">${esc(l.topic)}</span>` : ''}</div>`;
+        const desc = l.description ? `<p class="desc">${esc(l.description)}</p>` : '';
+        let actions, title;
+        if (l.type === 'post') {
+          const link = `#yazi-${encodeURIComponent(l.id)}`;
+          title = `<a href="${link}">${esc(l.title)}</a>`;
+          actions = `<a class="btn" href="${link}">Oxu</a>`;
+        } else {
+          const file = href(l.file);
+          title = `<a href="${file}" target="_blank" rel="noopener">${esc(l.title)}</a>`;
+          actions = `<a class="btn" href="${file}" target="_blank" rel="noopener">Aç</a><a class="btn btn-ghost" href="${file}" download>Yüklə</a>`;
+        }
+        return `<article class="card">${tags}<h3>${title}</h3>${desc}<div class="card-foot"><time datetime="${esc(l.date)}">${esc(fmtDate(l.date))}</time><div class="actions">${actions}</div></div></article>`;
+      }
+
+      function renderList() {
+        const q = norm(state.q).trim();
+        const shown = lessons.filter(l =>
+          (state.type === 'all' || l.type === state.type) &&
+          (!state.topic || l.topic === state.topic) &&
+          (!q || norm([l.title, l.description, l.topic].join(' ')).includes(q)));
+        $('count').textContent = lessons.length ? `${shown.length} material` : '';
+        if (!lessons.length) {
+          $('cards').innerHTML = '<div class="panel state"><h2>Hələ dərs yoxdur</h2><p>Dərs materialları əlavə olunanda burada görünəcək.</p></div>';
+        } else if (!shown.length) {
+          $('cards').innerHTML = '<div class="panel state"><h2>Heç nə tapılmadı</h2><p>Axtarışı və ya filtrləri dəyişin.</p></div>';
+        } else {
+          $('cards').innerHTML = shown.map(card).join('');
+        }
+      }
+
+      function renderReader(post) {
+        $('reader').innerHTML = `
+          <div class="tags"><span class="tag tag-type">Yazı</span>${post.topic ? `<span class="tag">${esc(post.topic)}</span>` : ''}</div>
+          <h2>${esc(post.title)}</h2>
+          <p class="meta">${esc(fmtDate(post.date))}</p>
+          <div class="prose">${BDU.renderBody(post.body)}</div>`;
+        BDU.typeset($('reader'));
+      }
+
+      function route() {
+        const m = /^#yazi-(.+)$/.exec(location.hash);
+        const post = m && lessons.find(l => l.type === 'post' && l.id === decodeURIComponent(m[1]));
+        if (post) {
+          listView.hidden = true; readerView.hidden = false;
+          renderReader(post);
+          document.title = `${post.title} · Dərslər`;
+          window.scrollTo(0, 0);
+        } else {
+          listView.hidden = false; readerView.hidden = true;
+          document.title = baseTitle;
+          if (m && loaded) $('count').textContent = 'Bu yazı tapılmadı.';
+        }
+      }
+
+      document.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', () => {
+        state.type = btn.dataset.type;
+        document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+        renderList();
+      }));
+      $('topic').addEventListener('change', e => { state.topic = e.target.value; renderList(); });
+      $('q').addEventListener('input', e => { state.q = e.target.value; renderList(); });
+      window.addEventListener('hashchange', route);
+
+      try {
+        lessons = (await BDU.load('lessons')).sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+        loaded = true;
+        const topics = [...new Set(lessons.map(l => l.topic).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'az'));
+        $('topic').innerHTML = '<option value="">Bütün mövzular</option>' + topics.map(t => `<option>${esc(t)}</option>`).join('');
+        $('topic').hidden = topics.length === 0;
+        renderList();
+        route();
+      } catch {
+        $('cards').innerHTML = '<div class="panel state"><h2>Məlumat yüklənmədi</h2><p>Səhifəni faylı birbaşa açmaqla yox, saytın öz ünvanından açın və yenidən cəhd edin.</p></div>';
+      }
+    })();
+  </script>
+</body>
+</html>
